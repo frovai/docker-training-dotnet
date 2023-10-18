@@ -52,3 +52,19 @@ sudo ls /var/lib/docker/volumes/aspnet-mssql_web-docker-vol/_data
 
 ### Testing images and CREATE VOLUMES
 
+## Best practices Docker 
+https://docs.docker.com/develop/develop-images/instructions/
+
+
+### Testing security issues, scan with Aqua trivy
+sudo usermod -aG docker $(whoami)
+docker run aquasec/trivy image web-docker
+
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | grep -E 'HIGH|CRITICAL'
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image agr-docusign:crdc| grep -E 'HIGH|CRITICAL'
+
+## Scan with reports in HTML
+
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/docusign-report.html agr-docusign:crdc 
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
