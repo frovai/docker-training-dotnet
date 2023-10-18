@@ -68,3 +68,7 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image agr-
 
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/docusign-report.html agr-docusign:crdc 
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
+
+# Build vulnerable image to compare
+docker build -t web-docker-vulnerable -f Dockerfile-bkp .
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-vulnerable-report.html web-docker-vulnerable
