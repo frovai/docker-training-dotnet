@@ -26,7 +26,7 @@ RUN apk update \
         && apk add net-tools \
         && rm -rf /var/cache/apt/*
 
-## Passing envs, don't use hard-coding values
+## Passing envs, don't use hard-coding values, injecting secrets and sensible information only on runtime
 # 3 rule
 ENV APP_USER web_user
 
@@ -36,7 +36,7 @@ RUN useradd -r $APP_USER
 USER $APP_USER
 
 COPY --from=publish /app/publish .
-# Expose ports
+# Expose ports, it only documents the ports your application needs to expose
 # 5 rule
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "aspnetapp.dll"]
