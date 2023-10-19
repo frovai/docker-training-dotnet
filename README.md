@@ -225,7 +225,7 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
 ```
 
-# Build vulnerable image to compare
+**Build vulnerable image to compare**
 
 ```
 docker build -t web-docker-vulnerable -f 
