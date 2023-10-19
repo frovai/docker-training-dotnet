@@ -57,35 +57,108 @@ The "--network docker-network" attaches the container "db-docker" to docker netw
 ```
 docker run --name db-docker -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=example_123' -p 1433:1433  --network docker-network -di mcr.microsoft.com/mssql/server
 ```
-## Delete containers and images
 
+**Stop and Delete containers and images**
+
+```
 docker stop web-docker db-docker
 docker rm web-docker db-docker
 docker rmi web-docker db-docker
+```
 
-### Testing images and CREATE VOLUMES
+**Docker-compose create stack**
 
+Create your file called "docker-compose.yml" and run the all the commands bellow inside the folder where is the file
+
+```
+docker-compose up -d
+```
+
+**Docker-compose destroy the stack**
+
+```
+docker-compose down -d
+```
+
+**Docker-compose build the stack**
+
+```
+docker-compose build
+```
+
+**Testing containers using volumes**
+
+The commands bellow join the container web-docker, update packages, install wget and download an image for the "image" folder of web-docker .Net application.
+
+```
+docker run -it web-docker sh
 apt update -y
 apt install wget -y
 cd wwwroot/images
 ls
 wget https://coisascriativas.b-cdn.net/wp-content/uploads/2019/09/paisagem-Montanhas-e-lago.jpg
 ls
-#Acesse abaixo
-http://localhost:8080/images/paisagem-Montanhas-e-lago.jpg
+exit
+```
 
-#Destrua os containers
+Test the access to this image downloaded inside the container accessing the browser on the link bellow:
+
+
+[http://localhost:8080/images/paisagem-Montanhas-e-lago.jpg](http://localhost:8080/images/paisagem-Montanhas-e-lago.jpg)
+
+**Everything is WORKING!**
+
+Now stop and destroy the container web-docker:
+
+```
 docker stop web-docker
 docker rm web-docker
+```
 
-#Suba de novo
+Run the command **"docker-compose up -d"** again and verify if the image still exists inside the **"wwwroot/images"** folder inside the container web-docker:
+
+[http://localhost:8080/images/paisagem-Montanhas-e-lago.jpg](http://localhost:8080/images/paisagem-Montanhas-e-lago.jpg)
+
+**IT WON'T**
+
+After that, uncomment the lines bellow, inside the file **"docker-compose.yml"** and re-run the command to create the stack.
+
+This lines will create a volume called **"web-docker-vol"** and attach this volume inside the service/docker **"web-docker"**, on the folder **"/app/wwwroot/images"**
+```
+    #volumes:
+    #  - web-docker-vol:/app/wwwroot/images
+#volumes:
+#  web-docker-vol:      
+```
+
+```
 docker-compose up -d
+```
 
-## List volumes
+Now make the same process again, join inside the "web-docker" container, download the same image with the command bellow
+
+```
+docker run -it web-docker sh
+apt update -y
+apt install wget -y
+cd wwwroot/images
+wget https://coisascriativas.b-cdn.net/wp-content/uploads/2019/09/paisagem-Montanhas-e-lago.jpg
+exit
+```
+
+Test again:
+
+[http://localhost:8080/images/paisagem-Montanhas-e-lago.jpg](http://localhost:8080/images/paisagem-Montanhas-e-lago.jpg)
+
+**Everything is WORKING!**
+
+Now the images are kept inside the host and not only inside the container. 
+If you want to know where this volumes are created on docker and inside the host, run the commands bellow:
+
+```
 docker volume ls
-sudo ls /var/lib/docker/volumes/aspnet-mssql_web-docker-vol/_data
-
-### Testing images and CREATE VOLUMES
+sudo ls /var/lib/docker/volumes/
+```
 
 ## Best practices Docker 
 https://docs.docker.com/develop/develop-images/instructions/
