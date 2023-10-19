@@ -22,7 +22,7 @@ Dockerfile is a file that you need to create to design or create you docker imag
 
 Docker-compose is another feature of Docker to simply document and create your Docker environment without having to decorate docker commands, you create your docker environments in a more performatic way as well.
 
-### Docker commands
+### **Docker commands**
 
 **Create an image web-docker**
 
@@ -174,25 +174,65 @@ sudo ls /var/lib/docker/volumes/
 ```
 
 ## Best practices Docker 
-https://docs.docker.com/develop/develop-images/instructions/
 
+[Docker best practices](https://docs.docker.com/develop/develop-images/instructions/)
 
-### Testing security issues, scan with Aqua trivy
+It was created the file **"aspnet-mssql/app/aspnetapp/Dockerfile-best-practices"** with comments explaining some best practices applied into the Dockerfile
+
+Access the folder and re-create the web-docker image with commands bellow and test the differences:
+
+```
+cd aspnet-mssql/app/aspnetapp/
+docker build -t web-docker-bestpractices -f Dockerfile-best-practices .
+docker run -it web-docker-bestpractices sh
+ps aux 
+```
+
+Now you can see that the user running the .Net process is **"web-user"** not **"root"**
+
+## Docker Security , scan with Aqua trivy
+
+**Add your user to docker group**
+
+Run the commands bellow to make your user part of the docker group
+
+```
 sudo usermod -aG docker $(whoami)
-docker run aquasec/trivy image web-docker
+```
 
+**Scan images to find vulnerabilities**
+
+Run the command bellow to pull image **aquasec/trivy** and scan the images **web-docker** or the **web-docker-bestpractices**
+```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker
+# OR
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-bestpractices
+```
+
+**Scan images to find vulnerabilities filtering level of vulnerability**
+
+Run the command bellow to scan the images **web-docker** or the **web-docker-bestpractices** and filtering only HIGH and CRITICAL issues.
+
+```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | grep -E 'HIGH|CRITICAL'
-docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image agr-docusign:crdc| grep -E 'HIGH|CRITICAL'
+# OR
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-bestpractices | grep -E 'HIGH|CRITICAL'
+```
 
-## Scan with reports in HTML
+**Scan images to find vulnerabilities with reports in HTML format**
 
-docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/docusign-report.html agr-docusign:crdc 
+```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
+```
 
 # Build vulnerable image to compare
-docker build -t web-docker-vulnerable -f Dockerfile-bkp .
+
+```
+docker build -t web-docker-vulnerable -f 
+Dockerfile-bkp .
+
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-vulnerable-report.html web-docker-vulnerable
+```
 
 # Fonts
 
