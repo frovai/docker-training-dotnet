@@ -1,6 +1,19 @@
 # Docker hands-on with .Net Application
 This reposiroty was created to train people running Docker containers for .Net application , helping understand the using of Dockerfile, docker-compose and to teach some best practices for creating a Docker container and applying Security on your Docker containers
 
+## Docker advantages
+
+* **Speed, Rapid application deployment** – Containers include the minimal runtime requirements of the application, reducing their size and allowing them to be deployed quickly.
+* **Imutability** - Immutable means that a container won't be modified during its life: no updates, no patches, no configuration changes. If you must update the application code or apply a patch, you build a new image and redeploy it. Immutability makes deployments safer and more repeatable.
+* **Scalability** - Is easy and fast to scale you application from one to thousands in seconds.
+* **Disposability** - Docker can be started or stopped at any time. This facilitates elastic scaling, rapid deployment of code or configuration changes, and robustness of production deployments.
+* **Isolation** - The container runs in a namespaced concept, so this makes it harder for malicious container workloads to escape the container and infect the Host or other containers. Isolation makes it's easy to debug problems or solve bugs as well because it will be isolated from other applications.
+* **Portability across machines** – an application and all its dependencies can be bundled into a single container that is independent from the host version of Linux kernel, platform distribution, or deployment model. This container can be transfered to another machine that runs Docker, and executed there without compatibility issues.
+* **Version control and component reuse** – you can track successive versions of a container, inspect differences, or roll-back to previous versions. * Containers reuse components from the preceding layers, which makes them noticeably lightweight.
+* **Sharing** – you can use a remote repository ( docker registry ) to share your container with others.
+* **Lightweight footprint and minimal overhead** – Docker images are typically very small, which facilitates rapid delivery and reduces the time to deploy new application containers. Docker’s lightweight nature ensures that resources are optimally utilized, thereby reducing overheads and boosting performance.
+* **Simplified maintenance** – Docker reduces effort and risk of problems with application dependencies.
+
 ## Dockerfile
 
 Dockerfile is a file that you need to create to design or create you docker image.
@@ -180,3 +193,10 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aqu
 # Build vulnerable image to compare
 docker build -t web-docker-vulnerable -f Dockerfile-bkp .
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-vulnerable-report.html web-docker-vulnerable
+
+# Fonts
+
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/7.0_release_notes/sect-red_hat_enterprise_linux-7.0_release_notes-linux_containers_with_docker_format-advantages_of_using_docker
+* https://docs.aws.amazon.com/whitepapers/latest/docker-on-aws/container-benefits.html
+* https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+* https://docs.docker.com/develop/dev-best-practices/
