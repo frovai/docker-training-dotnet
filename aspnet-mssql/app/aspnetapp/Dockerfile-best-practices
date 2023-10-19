@@ -1,9 +1,5 @@
-## Dockerfile best practices:
-##https://docs.docker.com/develop/develop-images/instructions/
-## https://hub.docker.com/_/microsoft-dotnet-aspnet
-## https://hub.docker.com/_/alpine
 ##FROM mcr.microsoft.com/dotnet/aspnet:5.0 as base
-
+# Oficial image, Using multi-staging , tagging image and using lightweight with alpine
 # 1 rule
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine AS base
 WORKDIR /app
@@ -13,7 +9,6 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 COPY . /src
 WORKDIR /src
-
 RUN dotnet build "aspnetapp.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -22,26 +17,26 @@ RUN dotnet publish "aspnetapp.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 
-## Install ps command
+## Ensure 1 layer only, change to apk managing package , removing the cache packages
 ##RUN apt update -y 
 ##RUN apt-get install --reinstall procps net-tools -y
 # 2 rule
 RUN apk update \
         && apk add procps \
-        net-tools \
-        && rm -rf /var/lib/apt/lists/*
+        && apk add net-tools \
+        && rm -rf /var/cache/apt/*
 
-## Good practices
-
+## Passing envs, don't use hard-coding values
 # 3 rule
-## 
 ENV APP_USER web_user
-## Set new user, no root on image
+
+## Ensure no root permissions on docker image, Set new user
 # 4 rule
 RUN useradd -r $APP_USER
 USER $APP_USER
 
 COPY --from=publish /app/publish .
+# Expose ports
 # 5 rule
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "aspnetapp.dll"]
