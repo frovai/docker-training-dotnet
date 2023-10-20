@@ -221,12 +221,12 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-
 
 **Scan images to find vulnerabilities with reports in HTML format**
 
-On Linux
+**On Linux**
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
 ```
 
-On Windows
+**On Windows**
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
 ```
