@@ -32,7 +32,7 @@ ENV APP_USER web_user
 
 ## Ensure no root permissions on docker image, Set new user
 # 4 rule
-RUN useradd -r $APP_USER
+RUN adduser -D $APP_USER
 USER $APP_USER
 
 COPY --from=publish /app/publish .
