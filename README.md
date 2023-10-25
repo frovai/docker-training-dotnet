@@ -159,13 +159,17 @@ docker save -o MinhaImagemExportada.tar 185661fea235 ## Example 2 exporting .tar
 
 ## **Dockerfile**
 
-Dockerfile is a file that you need to create, to design your docker image. Dockerfile is structured in Layers, so each line on your Dockerfile file is a different layer. All the layers are refered to Image and are read-only excepted the last one that refers to the Container and it's Read-Write.
+Dockerfile is a file that you need to create, to design your docker image. 
+
+Dockerfile is structured in Layers, so each line on your Dockerfile file is a different layer. All the layers are refered to Image and are Read-Only excepted the last one that refers to the Container and it's Read-Write.
 
 ![DockerFile Structure](.images/Dockerfile-Structure.webp)
 
 ## **Docker-compose**
 
 Docker-compose is another feature of Docker to simply document and create your Docker environment without having to decorate docker commands, you create your docker environments in a more performatic way as well.
+
+## **Hands-on**
 
 **Create an image web-docker**
 
@@ -182,6 +186,7 @@ The commands bellow creates/runs a container from the image "web-docker" , named
 ```
 docker run --name web-docker -p 8080:80 -di web-docker 
 ```
+![Web-docker Page](.images/output.jpg)
 
 **Create a container db-docker**
 
