@@ -1,0 +1,37 @@
+services:
+
+  apache-ab:
+    image: ubuntu:latest
+    container_name: apache-ab
+    command: sh -c "
+     sleep 60000 &&
+     uname"
+    #apt update -y && apt upgrade -y && apt install net-tools iputils-ping apache2-utils -y]
+    # ab -n 10000 -c 100 http://web-docker:80/
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 100M 
+
+  web:
+    image: web-docker-sec
+    container_name: web-docker
+    build: app/aspnetapp
+    ports:
+      - 8080:80
+    restart: unless-stopped # always
+    #volumes:
+    #  - web-docker-vol:/app/wwwroot/images
+
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: example_123
+    container_name: db-docker
+    image: mcr.microsoft.com/mssql/server
+    restart: always
+      
+
+#volumes:
+#  web-docker-vol:        
