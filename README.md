@@ -192,7 +192,7 @@ docker run --name web-docker -p 8080:80 -di web-docker
 
 **Create a container db-docker**
 
-The commands bellow creates/runs a container from the image "mcr.microsoft.com/mssql/server", named your container as "db-docker" , the "-e" exposes environments 'ACCEPT_EULA' and 'SA_PASSWORD' with your respective values, the "-p" exposes the port "1433" on your host and the "1433" inside your container the "-di" is a flag to make the container runs as a daemon process an make it interactable.
+The commands bellow creates/runs a container from the image **"mcr.microsoft.com/mssql/server"**, named your container as **"db-docker"** , the **"-e"** exposes environments **'ACCEPT_EULA'** and **'SA_PASSWORD'** with your respective values, the **"-p"** exposes the port **"1433"** on your host and the **"1433"** inside your container the **"-di"** is a flag to make the container runs as a daemon process an make it interactable.
 ```
 docker run --name db-docker -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=example_123' -p 1433:1433 -di mcr.microsoft.com/mssql/server
 ```
@@ -207,7 +207,7 @@ docker network create docker-network
 
 **Create a container web-docker using docker-network**
 
-The "--network docker-network" attaches the container "web-docker" to docker network "docker-network".
+The **"--network docker-network"** attaches the container **"web-docker"** to docker network **"docker-network"**.
 
 ```
 docker run --name web-docker -p 8080:80 --network docker-network -di web-docker 
@@ -215,7 +215,7 @@ docker run --name web-docker -p 8080:80 --network docker-network -di web-docker
 
 **Create a container db-docker using docker-network**
 
-The "--network docker-network" attaches the container "db-docker" to docker network "docker-network".
+The **"--network docker-network"** attaches the container **"db-docker"** to docker network **"docker-network"**.
 
 ```
 docker run --name db-docker -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=example_123' -p 1433:1433  --network docker-network -di mcr.microsoft.com/mssql/server
@@ -231,7 +231,7 @@ docker rmi web-docker db-docker
 
 **Docker-compose create stack**
 
-Create your file called "docker-compose.yml" and run the all the commands bellow inside the folder where is the file
+Create your file called **"docker-compose.yml"** and run the all the commands bellow inside the folder where is the file
 
 ```
 docker-compose up -d
@@ -254,7 +254,7 @@ docker-compose build
 The commands bellow join the container web-docker, update packages, install wget and download an image for the "image" folder of web-docker .Net application.
 
 ```
-docker run -it web-docker sh
+docker exec -it web-docker sh
 apt update -y
 apt install wget -y
 cd wwwroot/images
@@ -301,7 +301,7 @@ docker-compose up -d
 Now make the same process again, join inside the "web-docker" container, download the same image with the command bellow
 
 ```
-docker run -it web-docker sh
+docker exec -it web-docker sh
 apt update -y
 apt install wget -y
 cd wwwroot/images
@@ -323,7 +323,7 @@ docker volume ls
 sudo ls /var/lib/docker/volumes/
 ```
 
-## Best practices Docker 
+## Best practices Docker and Docker-compose
 
 [Docker best practices](https://docs.docker.com/develop/develop-images/instructions/)
 
@@ -333,26 +333,39 @@ Access the folder and re-create the web-docker image with commands bellow and te
 
 ```
 cd aspnet-mssql/app/aspnetapp/
-docker build -t web-docker-bestpractices -f Dockerfile-best-practices .
-docker run -it web-docker-bestpractices sh
+docker build -t web-docker-best -f Dockerfile-best-practices .
+docker exec -it web-docker-best sh
+ps aux
+## OR
+cd aspnet-mssql
+docker-compose -f docker-compose-best.yml build
+docker-compose -f docker-compose-best.yml up -d
+docker exec -it web-docker-best sh
 ps aux 
 ```
 Now you can see that the user running the .Net process is **"web-user"** not **"root"**
 
-## **Best Practices with Docker-compose**
-
 **Specify different docker-compose file, Using Global and default envs**
 
+Now, uncomment the lines bellow, inside the file **"docker-compose-best.yml"** and re-run the command to create the stack.
+```
+      #APPLICATION_NAME: ${APPLICATION_NAME}
+      #LANGUAGE: ${LANGUAGE}
+      #OS_SYSYEM: ${OS_SYSTEM}
+    #env_file:
+    #  - .env.Global   
+```
+This lines will create the stack calling the env file **".env.Global"** and mapping the 3 variables according to the **".env.Global"** file.
 ```
 cd aspnet-mssql
-docker-compose -f .\docker-compose-best.yaml up -d
+docker-compose -f docker-compose-best.yml up -d
 ```
 
 **Specify different docker-compose file, Using Global env and Specifying env**
 
 ```
 cd aspnet-mssql
-docker-compose --env-file .env.stg -f .\docker-compose-best.yaml up -d
+docker-compose --env-file .env.stg -f .\docker-compose-best.yml up -d
 ```
 
 ## **Docker Security , scan with Aqua trivy**
@@ -367,43 +380,74 @@ sudo usermod -aG docker $(whoami)
 
 **Scan images to find vulnerabilities**
 
-Run the command bellow to pull image **aquasec/trivy** and scan the images **web-docker** or the **web-docker-bestpractices**
+Run the command bellow to pull image **aquasec/trivy** and scan the images **web-docker** or the **web-docker-best**
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker
 # OR
-docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-bestpractices
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best
 ```
 
-**Scan images to find vulnerabilities filtering level of vulnerability**
+**On LINUX , Scan images to find vulnerabilities filtering level of vulnerability**
 
-Run the command bellow to scan the images **web-docker** or the **web-docker-bestpractices** and filtering only HIGH and CRITICAL issues.
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will filter only HIGH and CRITICAL issues.
 
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | grep -E 'HIGH|CRITICAL'
-# OR
-docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-bestpractices | grep -E 'HIGH|CRITICAL'
+# AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | grep -E 'HIGH|CRITICAL'
 ```
 
-**Scan images to find vulnerabilities with reports in HTML format**
+**On WINDOWS , Scan images to find vulnerabilities filtering level of vulnerability**
 
-**On Linux**
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will filter only HIGH and CRITICAL issues.
+
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | findstr /R /C:"HIGH" /C:"CRITICAL"
+# AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | findstr /R /C:"HIGH" /C:"CRITICAL"
+```
+
+**On LINUX, Scan images to find vulnerabilities with reports in HTML format**
+
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will generate a HTML Report listing all the vulnerabilities, LOW, MEDIUM, HIGH and CRITICAL:
+
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
+## AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-best-report.html web-docker-best
 ```
 
-**On Windows**
+**On WINDOWS, Scan images to find vulnerabilities with reports in HTML format**
+
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will generate a HTML Report listing all the vulnerabilities, LOW, MEDIUM, HIGH and CRITICAL:
+
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
+## AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-best-report.html web-docker-best
 ```
 
-**Build vulnerable image to compare**
+**COMPARE IMAGE VULNERABILITIES**
 
+**Command on LINUX , web-docker image Total vulnerabilities** 
 ```
-docker build -t web-docker-vulnerable -f 
-Dockerfile-bkp .
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | grep Total
+```
+**Command on WINDOWS , web-docker image Total vulnerabilities** 
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | findstr /R /C:"Total"
+```
+![Web-docker Vulnerabilities](.images/Total-vulnerabilities-web-docker.png)
 
-docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-vulnerable-report.html web-docker-vulnerable
+**Command on LINUX , web-docker-best image Total vulnerabilities** 
 ```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | grep Total
+```
+**Command on WINDOWS , web-docker-best image Total vulnerabilities** 
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | findstr /R /C:"Total"
+```
+![Web-docker-best Vulnerabilities](.images/Total-vulnerabilities-web-docker-best.png)
 
 ## **Fonts**
 
