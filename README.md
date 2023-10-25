@@ -14,9 +14,9 @@ This reposiroty was created to train people running Docker containers for .Net a
 * **Lightweight footprint and minimal overhead** – Docker images are typically very small, which facilitates rapid delivery and reduces the time to deploy new application containers. Docker’s lightweight nature ensures that resources are optimally utilized, thereby reducing overheads and boosting performance.
 * **Simplified maintenance** – Docker reduces effort and risk of problems with application dependencies.
 
-### **Docker commands**
+## **Docker commands**
 
-**Containers:**
+### **Containers:**
 
 * **create** — Creates a container from an image.
 ```
@@ -85,7 +85,7 @@ docker rename [containerid] [newname]
 ```
 docker export [containerid] > file_name.tar
 ```
-**Images:**
+### **Images:**
 
 * **search** — Displays existing images on Docker Hub.
 ```
@@ -152,11 +152,11 @@ docker save [imageid]
 * **docker login** — Login into some Docker Registry service, like Docker Hub, AWS ECR, etc.
 * **docker system prune** — Deletes disused containers, disused network bridges , build cache and old unused images **(be very careful with this command)**
 
-## Dockerfile
+## **Dockerfile**
 
 Dockerfile is a file that you need to create to design or create you docker image.
 
-## Docker-compose
+## **Docker-compose**
 
 Docker-compose is another feature of Docker to simply document and create your Docker environment without having to decorate docker commands, you create your docker environments in a more performatic way as well.
 
