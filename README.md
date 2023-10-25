@@ -103,6 +103,12 @@ docker images
 docker commit [container_id] NewImageName:tag
 docker commit b612618ee603 web-docker-image:1.0  ## Example
 ```
+* **tag** - Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+```
+docker tag [image_id] NewImageName:tag
+docker tag 3c17532d9acc myfirstimage ## Example with default latest tag
+docker tag 3c17532d9acc myfirstimage:1.0 ## Example with tag associated
+```
 * **push** — Pushes an image from the Docker Registry.
 ```
 docker push registry-repository-address
@@ -114,8 +120,13 @@ docker push 2427556123456.dkr.ecr.us-east-1.amazonaws.com/myfirstimage ## Exampl
 docker pull localhost:5000/myfirstimage ## Example local registry
 docker pull ubuntu:22.04 ## Example default Docker Hub Registry
 ```
-
-* **history** — Displays the evolution/history of the image since it was created.
+* **load** - Load an image from a tar archive or STDIN
+```
+docker load < [path/to/image_file.tar]
+docker load -i [path/to/image_file.tar]
+docker load -i /home/ubuntu/MyExportedImage.tar ## Example
+```
+* **history** — Displays the evolution/history of the image since it was created, show its layers.
 ```
 docker history [imageid]
 ```
