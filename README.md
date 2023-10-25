@@ -14,15 +14,156 @@ This reposiroty was created to train people running Docker containers for .Net a
 * **Lightweight footprint and minimal overhead** – Docker images are typically very small, which facilitates rapid delivery and reduces the time to deploy new application containers. Docker’s lightweight nature ensures that resources are optimally utilized, thereby reducing overheads and boosting performance.
 * **Simplified maintenance** – Docker reduces effort and risk of problems with application dependencies.
 
-## Dockerfile
+## **Docker commands**
+
+### **Containers:**
+
+* **create** — Creates a container from an image.
+```
+docker create [imageid]
+```
+* **start** — Starts a container that already exists.
+```
+docker start [containerid]
+```
+* **restart** — Restarts an existing container.
+```
+docker restart [containerid]
+```
+* **run** , **run -di** — Creates a new container and starts it like daemon process.
+-d = Run the container in the background
+-i = Interactive mode. Keeps STDIN open even without console attached
+```
+docker run -di [imageid]
+```
+* **ps** — Lists the containers that are running.
+```
+docker ps # (containers up)
+docker ps -a # (all containers on the machine)
+```
+* **inspect** — Inspects container configurations.
+```
+docker inspect [containerid]
+```
+* **logs** — Shows the container logs.
+```
+docker logs [containerid]
+```
+* **stop** — Stops the container safely.
+```
+docker stop [containerid]
+```
+* **kill** — Forces the container's main process to stop.
+```
+docker kill [containerid]
+```
+* **rm** , **rm $(docker ps -aq)** — Deletes a container, only works when it is stopped. Delete all containers
+```
+docker rm [containerid]
+docker rm $(docker ps -aq) ## Example command to delete all containers listed on the filter
+```
+* **exec** , **exec -it** — Executes a command in the container.
+```
+docker exec -ti [containerid] [command]
+```
+* **stats** — Shows the container's consumption/statistics.
+```
+docker stats [containerid]
+```
+* **top** — Shows running processes.
+```
+docker top [containerid]
+```
+* **port** – Shows the exposed and open ports of the container.
+```
+docker port [containerid]
+```
+* **rename** — Renames a container.
+```
+docker rename [containerid] [newname]
+```
+* **export** — Exports the container's Filesystem to a tar.
+```
+docker export [containerid] > file_name.tar
+```
+### **Images:**
+
+* **search** — Displays existing images on Docker Hub.
+```
+docker search [image name you want]
+docker search ubuntu ## Example
+```
+* **build** — Builds an image from a Dockerfile.
+```
+docker build -t firstimage [Dockerfile path]
+docker built -t MyImageName . ## Example
+```
+* **image** - List local images
+```
+docker images
+```
+* **commit** — Creates a new image after changing the container
+```
+docker commit [container_id] NewImageName:tag
+docker commit b612618ee603 web-docker-image:1.0  ## Example
+```
+* **tag** - Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+```
+docker tag [image_id] NewImageName:tag
+docker tag 3c17532d9acc myfirstimage ## Example with default latest tag
+docker tag 3c17532d9acc myfirstimage:1.0 ## Example with tag associated
+```
+* **push** — Pushes an image from the Docker Registry.
+```
+docker push registry-repository-address
+docker push localhost:5000/myfirstimage ## Example local registry
+docker push 2427556123456.dkr.ecr.us-east-1.amazonaws.com/myfirstimage ## Example remote Registry AWS ECR
+```
+* **pull** — Pulls an image from the Registry.
+```
+docker pull localhost:5000/myfirstimage ## Example local registry
+docker pull ubuntu:22.04 ## Example default Docker Hub Registry
+```
+* **load** - Load an image from a tar archive or STDIN
+```
+docker load < [path/to/image_file.tar]
+docker load -i [path/to/image_file.tar]
+docker load -i /home/ubuntu/MyExportedImage.tar ## Example
+```
+* **history** — Displays the evolution/history of the image since it was created, show its layers.
+```
+docker history [imageid]
+```
+* **inspect** — Inspects the container's configurations, as well as its layers.
+```
+docker inspect [imageid]
+```
+* **rmi** , **rmi $(docker images -aq)**— Delete an image or delete all images
+```
+docker rmi [imageid]
+docker rmi $(docker images -aq) ## Example command to delete all images filtered
+```
+* **save** — Saves one or more images to a tar.
+```
+docker save [imageId or imageName] > ExportedMyLocalImageName.tar
+docker save -o ExportedMyLocalImageName.tar [imageId or imageName]
+docker save ubuntu:22.04 > Ubuntu22-04.tar ## Example 1 exporting .tar file on the folder executed the command from Image Name.
+docker save -o MinhaImagemExportada.tar 185661fea235 ## Example 2 exporting .tar file on the folder executed the command from Image ID.
+```
+
+**Other important ones:**
+
+* **docker version** — Lists information about the docker client and docker server.
+* **docker login** — Login into some Docker Registry service, like Docker Hub, AWS ECR, etc.
+* **docker system prune** — Deletes disused containers, disused network bridges , build cache and old unused images **(be very careful with this command)**
+
+## **Dockerfile**
 
 Dockerfile is a file that you need to create to design or create you docker image.
 
-## Docker-compose
+## **Docker-compose**
 
 Docker-compose is another feature of Docker to simply document and create your Docker environment without having to decorate docker commands, you create your docker environments in a more performatic way as well.
-
-### **Docker commands**
 
 **Create an image web-docker**
 
@@ -189,7 +330,7 @@ ps aux
 ```
 Now you can see that the user running the .Net process is **"web-user"** not **"root"**
 
-## Best Practices with Docker-compose
+## **Best Practices with Docker-compose**
 
 **Specify different docker-compose file, Using Global and default envs**
 
@@ -205,7 +346,7 @@ cd aspnet-mssql
 docker-compose --env-file .env.stg -f .\docker-compose-best.yaml up -d
 ```
 
-## Docker Security , scan with Aqua trivy
+## **Docker Security , scan with Aqua trivy**
 
 **Add your user to docker group**
 
@@ -255,7 +396,7 @@ Dockerfile-bkp .
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-vulnerable-report.html web-docker-vulnerable
 ```
 
-# Fonts
+## **Fonts**
 
 * https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/7.0_release_notes/sect-red_hat_enterprise_linux-7.0_release_notes-linux_containers_with_docker_format-advantages_of_using_docker
 * https://docs.aws.amazon.com/whitepapers/latest/docker-on-aws/container-benefits.html

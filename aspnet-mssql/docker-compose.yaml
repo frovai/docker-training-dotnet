@@ -1,41 +1,22 @@
 services:
+
   web:
     image: web-docker
     container_name: web-docker
     build: app/aspnetapp
     ports:
-      #- 8080:80
-      - 8080:8080
-    restart: unless-stopped # always
+      - 8080:80
+    restart: always
     #volumes:
     #  - web-docker-vol:/app/wwwroot/images
-    #networks:
-    #  - frontend    
-    #depends_on:
-    #  db:        
-    #    condition: service_healthy
 
   db:
+    image: mcr.microsoft.com/mssql/server
+    container_name: db-docker
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: example_123
-    container_name: db-docker
-    image: mcr.microsoft.com/mssql/server
-    restart: unless-stopped # always
-    #healthcheck:
-    #    test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P example_123 -Q 'SELECT 1' || exit 1"]
-    #    interval: 2s
-    #    retries: 20
-    #    start_period: 2s
-    #    timeout: 3s     
-    #networks:
-    #  - backend        
-
+    restart: always
+      
 #volumes:
 #  web-docker-vol:        
-
-#networks:
-#  frontend:
-#    driver: bridge
-#  backend:
-#    driver: bridge
