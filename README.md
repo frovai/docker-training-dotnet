@@ -88,7 +88,10 @@ docker export [containerid] > file_name.tar
 **Images:**
 
 * **search** — Displays existing images on Docker Hub.
-docker search [image you want]
+```
+docker search [image name you want]
+docker search ubuntu ## Example
+```
 * **build** — Builds an image from a Dockerfile.
 ```
 docker build -t firstimage [Dockerfile path]
