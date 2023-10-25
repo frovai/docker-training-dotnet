@@ -1,6 +1,16 @@
 # Docker hands-on with .Net Application
 This reposiroty was created to train people running Docker containers for .Net application , helping understand the using of Dockerfile, docker-compose and to teach some best practices for creating a Docker container and applying Security on your Docker containers
 
+## **Prerequisites**
+
+### **Install Docker on Windows or Linux**
+
+Follow the steps inside official Docker documentation:
+
+[Install Docker Windows](https://docs.docker.com/desktop/install/windows-install/)
+
+[Install Docker Linux](https://docs.docker.com/desktop/install/linux-install/)
+
 ## Docker advantages
 
 * **Speed, Rapid application deployment** – Containers include the minimal runtime requirements of the application, reducing their size and allowing them to be deployed quickly.
