@@ -189,16 +189,17 @@ ps aux
 ```
 Now you can see that the user running the .Net process is **"web-user"** not **"root"**
 
-## Best Practices Docker-compose
+## Best Practices with Docker-compose
 
-**Specify differente docker-compose file, Using Global and default envs**
+**Specify different docker-compose file, Using Global and default envs**
 
 ```
 cd aspnet-mssql
 docker-compose -f .\docker-compose-best.yaml up -d
 ```
 
-**Specify differente docker-compose file, Using Global env and Specifying env**
+**Specify different docker-compose file, Using Global env and Specifying env**
+
 ```
 cd aspnet-mssql
 docker-compose --env-file .env.stg -f .\docker-compose-best.yaml up -d
