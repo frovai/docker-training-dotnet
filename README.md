@@ -22,35 +22,29 @@ This reposiroty was created to train people running Docker containers for .Net a
 ```
 docker create [imageid]
 ```
-
 * **start** — Starts a container that already exists.
 ```
 docker start [containerid]
 ```
-
 * **restart** — Restarts an existing container.
 ```
 docker restart [containerid]
 ```
-
 * **run** , **run -di** — Creates a new container and starts it like daemon process.
 -d = Run the container in the background
 -i = Interactive mode. Keeps STDIN open even without console attached
 ```
 docker run -di [imageid]
 ```
-
 * **ps** — Lists the containers that are running.
 ```
 docker ps # (containers up)
 docker ps -a # (all containers on the machine)
 ```
-
 * **inspect** — Inspects container configurations.
 ```
 docker inspect [containerid]
 ```
-
 * **logs** — Shows the container logs.
 ```
 docker logs [containerid]
@@ -91,26 +85,59 @@ docker rename [containerid] [newname]
 ```
 docker export [containerid] > file_name.tar
 ```
-Images:
-Use: docker command
-search — Displays existing images on Docker Hub.
+**Images:**
+
+* **search** — Displays existing images on Docker Hub.
 docker search [image you want]
-build — Builds an image from a dockerfile.
-Use the Dockerfile created in topic 4, or one of your choice.
+* **build** — Builds an image from a Dockerfile.
+```
 docker build -t firstimage [Dockerfile path]
-This will create an image, to check it we can use:
+docker built -t MyImageName . ## Example
+```
+* **image** - List local images
+```
 docker images
-commit — Creates a new image after changing the container
-Use the Dockerfile created in topic 4, or one of your choice.
-Run the build command above
-Now change some variables in the Dockerfile.
-Run: docker commit
-push — Pushes an image from the Docker Registry.
-We will understand more in the last topic.
-docker push localhost:5000/myfirstimage
-pull — Pulls an image from the Registry.
-We will understand more in the last topic.
-docker pull localhost:5000/myfirstimage
+```
+* **commit** — Creates a new image after changing the container
+```
+docker commit [container_id] NewImageName:tag
+docker commit b612618ee603 web-docker-image:1.0  ## Example
+```
+* **push** — Pushes an image from the Docker Registry.
+```
+docker push registry-repository-address
+docker push localhost:5000/myfirstimage ## Example local registry
+docker push 2427556123456.dkr.ecr.us-east-1.amazonaws.com/myfirstimage ## Example remote Registry AWS ECR
+```
+* **pull** — Pulls an image from the Registry.
+```
+docker pull localhost:5000/myfirstimage ## Example local registry
+docker pull ubuntu:22.04 ## Example default Docker Hub Registry
+```
+
+* **history** — Displays the evolution/history of the image since it was created.
+```
+docker history [imageid]
+```
+* **inspect** — Inspects the container's configurations, as well as its layers.
+```
+docker inspect [imageid]
+```
+* **rm** — Deletes an image.
+```
+docker image rm [imageid]
+```
+* **save** — Saves one or more images to a tar.
+```
+docker save [imageid]
+```
+
+**Other important ones:**
+
+* **docker version** — Lists information about the docker client and docker server.
+* **docker login** — Login into some Docker Registry service, like Docker Hub, AWS ECR, etc.
+* **docker system prune** — Deletes disused containers, disused network bridges , build cache and old unused images **(be very careful with this command)**
+
 ## Dockerfile
 
 Dockerfile is a file that you need to create to design or create you docker image.
