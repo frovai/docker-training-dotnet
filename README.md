@@ -325,7 +325,7 @@ ps aux
 ```
 Now you can see that the user running the .Net process is **"web-user"** not **"root"**
 
-## Best Practices with Docker-compose
+## **Best Practices with Docker-compose**
 
 **Specify different docker-compose file, Using Global and default envs**
 
@@ -341,7 +341,7 @@ cd aspnet-mssql
 docker-compose --env-file .env.stg -f .\docker-compose-best.yaml up -d
 ```
 
-## Docker Security , scan with Aqua trivy
+## **Docker Security , scan with Aqua trivy**
 
 **Add your user to docker group**
 
@@ -391,7 +391,7 @@ Dockerfile-bkp .
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-vulnerable-report.html web-docker-vulnerable
 ```
 
-# Fonts
+## **Fonts**
 
 * https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/7.0_release_notes/sect-red_hat_enterprise_linux-7.0_release_notes-linux_containers_with_docker_format-advantages_of_using_docker
 * https://docs.aws.amazon.com/whitepapers/latest/docker-on-aws/container-benefits.html
