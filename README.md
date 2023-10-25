@@ -14,6 +14,69 @@ This reposiroty was created to train people running Docker containers for .Net a
 * **Lightweight footprint and minimal overhead** – Docker images are typically very small, which facilitates rapid delivery and reduces the time to deploy new application containers. Docker’s lightweight nature ensures that resources are optimally utilized, thereby reducing overheads and boosting performance.
 * **Simplified maintenance** – Docker reduces effort and risk of problems with application dependencies.
 
+## Docker commands
+
+**Containers:**
+
+* create — Creates a container from an image.
+```
+docker create [imageid]
+```
+* start — Starts a container that already exists.
+```
+docker start [containerid]
+```
+restart — Restarts an existing container.
+docker restart [containerid]
+run , run -di — Creates a new container and starts it.
+-d = Run the container in the background
+-i = Interactive mode. Keeps STDIN open even without console attached
+docker run -di [imageid]
+ps — Lists the containers that are running.
+docker ps (containers up)
+docker ps -a (all containers on the machine)
+inspect — Inspects container configurations.
+docker inspect [containerid]
+logs — Shows the container logs.
+docker logs [containerid]
+stop — Stops the container safely.
+docker stop [containerid]
+kill — Forces the container's main process to stop.
+docker kill [containerid]
+rm — Deletes a container, only works when it is stopped.
+docker rm [containerid]
+exec , exec -it — Executes a command in the container.
+docker exec -ti [containerid] [command]
+stats — Shows the container's consumption/statistics.
+docker stats [containerid]
+top — Shows running processes.
+docker top [containerid]
+port – Shows the exposed and open ports of the container.
+docker port [containerid]
+rename — Renames a container.
+docker rename [containerid] [newname]
+export — Exports the container's Filesystem to a tar.
+docker export [containerid] > file_name.tar
+Images:
+Use: docker command
+search — Displays existing images on Docker Hub.
+docker search [image you want]
+build — Builds an image from a dockerfile.
+Use the Dockerfile created in topic 4, or one of your choice.
+docker build -t firstimage [Dockerfile path]
+This will create an image, to check it we can use:
+docker images
+commit — Creates a new image after changing the container
+Use the Dockerfile created in topic 4, or one of your choice.
+Run the build command above
+Now change some variables in the Dockerfile.
+Run: docker commit
+push — Pushes an image from the Docker Registry.
+We will understand more in the last topic.
+docker push localhost:5000/myfirstimage
+pull — Pulls an image from the Registry.
+We will understand more in the last topic.
+docker pull localhost:5000/myfirstimage
 ## Dockerfile
 
 Dockerfile is a file that you need to create to design or create you docker image.
