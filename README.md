@@ -254,7 +254,7 @@ docker-compose build
 The commands bellow join the container web-docker, update packages, install wget and download an image for the "image" folder of web-docker .Net application.
 
 ```
-docker run -it web-docker sh
+docker exec -it web-docker sh
 apt update -y
 apt install wget -y
 cd wwwroot/images
@@ -301,7 +301,7 @@ docker-compose up -d
 Now make the same process again, join inside the "web-docker" container, download the same image with the command bellow
 
 ```
-docker run -it web-docker sh
+docker exec -it web-docker sh
 apt update -y
 apt install wget -y
 cd wwwroot/images
@@ -323,7 +323,7 @@ docker volume ls
 sudo ls /var/lib/docker/volumes/
 ```
 
-## Best practices Docker 
+## Best practices Docker and Docker-compose
 
 [Docker best practices](https://docs.docker.com/develop/develop-images/instructions/)
 
@@ -333,19 +333,32 @@ Access the folder and re-create the web-docker image with commands bellow and te
 
 ```
 cd aspnet-mssql/app/aspnetapp/
-docker build -t web-docker-bestpractices -f Dockerfile-best-practices .
-docker run -it web-docker-bestpractices sh
+docker build -t web-docker-best -f Dockerfile-best-practices .
+docker exec -it web-docker-best sh
+ps aux
+## OR
+cd aspnet-mssql
+docker-compose -f docker-compose-best.yml build
+docker-compose -f docker-compose-best.yml up -d
+docker exec -it web-docker-best sh
 ps aux 
 ```
 Now you can see that the user running the .Net process is **"web-user"** not **"root"**
 
-## **Best Practices with Docker-compose**
-
 **Specify different docker-compose file, Using Global and default envs**
 
+Now, uncomment the lines bellow, inside the file **"docker-compose-best.yml"** and re-run the command to create the stack.
+```
+      #APPLICATION_NAME: ${APPLICATION_NAME}
+      #LANGUAGE: ${LANGUAGE}
+      #OS_SYSYEM: ${OS_SYSTEM}
+    #env_file:
+    #  - .env.Global   
+```
+This lines will create the stack calling the env file **".env.Global"** and mapping the 3 variables according to the **".env.Global"** file.
 ```
 cd aspnet-mssql
-docker-compose -f .\docker-compose-best.yml up -d
+docker-compose -f docker-compose-best.yml up -d
 ```
 
 **Specify different docker-compose file, Using Global env and Specifying env**

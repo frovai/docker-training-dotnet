@@ -28,6 +28,9 @@ services:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: ${SA_PASSWORD}
       ENVIRONMENT: ${ENVIRONMENT}
+      #APPLICATION_NAME: ${APPLICATION_NAME}
+      #LANGUAGE: ${LANGUAGE}
+      #OS_SYSYEM: ${OS_SYSTEM}
     #env_file:
     #  - .env.Global
     restart: unless-stopped 
