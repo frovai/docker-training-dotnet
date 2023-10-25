@@ -8,6 +8,7 @@ docker build -t web-docker .
 ## Create web container
 docker run --name web-docker -p 8080:80 -di web-docker 
 
+#https://mcr.microsoft.com/en-us/product/mssql/server/about
 ## Create db container
 docker run --name db-docker -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=example_123' -p 1433:1433 -di mcr.microsoft.com/mssql/server
 
@@ -51,6 +52,13 @@ docker volume ls
 sudo ls /var/lib/docker/volumes/aspnet-mssql_web-docker-vol/_data
 
 ### Testing images and CREATE VOLUMES
+
+## Env files
+# Default .env
+docker-compose -f .\docker-compose-best.yaml up -d
+# Specify .env
+docker-compose --env-file .env.stg -f .\docker-compose-best.yaml up -d
+
 
 ## Best practices Docker 
 https://docs.docker.com/develop/develop-images/instructions/
