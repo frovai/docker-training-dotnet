@@ -57,9 +57,10 @@ docker stop [containerid]
 ```
 docker kill [containerid]
 ```
-* **rm** — Deletes a container, only works when it is stopped.
+* **rm** , **rm $(docker ps -aq)** — Deletes a container, only works when it is stopped. Delete all containers
 ```
 docker rm [containerid]
+docker rm $(docker ps -aq) ## Delete all containers listed on the filter
 ```
 * **exec** , **exec -it** — Executes a command in the container.
 ```
@@ -137,9 +138,10 @@ docker history [imageid]
 ```
 docker inspect [imageid]
 ```
-* **rm** — Deletes an image.
+* **rmi** , **rmi $(docker images -aq)**— Delete an image or delete all images
 ```
-docker image rm [imageid]
+docker rmi [imageid]
+docker rmi $(docker images -aq) ## Linux command to delete all images filtered
 ```
 * **save** — Saves one or more images to a tar.
 ```
