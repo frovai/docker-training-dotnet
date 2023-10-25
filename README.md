@@ -145,7 +145,10 @@ docker rmi $(docker images -aq) ## Example command to delete all images filtered
 ```
 * **save** — Saves one or more images to a tar.
 ```
-docker save [imageid]
+docker save [imageId or imageName] > ExportedMyLocalImageName.tar
+docker save -o ExportedMyLocalImageName.tar [imageId or imageName]
+docker save ubuntu:22.04 > Ubuntu22-04.tar ## Example 1 exporting .tar file on the folder executed the command from Image Name.
+docker save -o MinhaImagemExportada.tar 185661fea235 ## Example 2 exporting .tar file on the folder executed the command from Image ID.
 ```
 
 **Other important ones:**
