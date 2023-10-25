@@ -22,27 +22,34 @@ This reposiroty was created to train people running Docker containers for .Net a
 ```
 docker create [imageid]
 ```
+
 * **start** — Starts a container that already exists.
 ```
 docker start [containerid]
 ```
+
 * **restart** — Restarts an existing container.
 ```
 docker restart [containerid]
 ```
-* **run** , run -di — Creates a new container and starts it like daemon process.
+
+* **run** , **run -di** — Creates a new container and starts it like daemon process.
 -d = Run the container in the background
 -i = Interactive mode. Keeps STDIN open even without console attached
 ```
 docker run -di [imageid]
 ```
+
 * **ps** — Lists the containers that are running.
 ```
 docker ps # (containers up)
 docker ps -a # (all containers on the machine)
 ```
-inspect — Inspects container configurations.
+
+* **inspect** — Inspects container configurations.
+```
 docker inspect [containerid]
+```
 logs — Shows the container logs.
 docker logs [containerid]
 stop — Stops the container safely.
