@@ -187,8 +187,22 @@ docker build -t web-docker-bestpractices -f Dockerfile-best-practices .
 docker run -it web-docker-bestpractices sh
 ps aux 
 ```
-
 Now you can see that the user running the .Net process is **"web-user"** not **"root"**
+
+## Best Practices Docker-compose
+
+**Specify differente docker-compose file, Using Global and default envs**
+
+```
+cd aspnet-mssql
+docker-compose -f .\docker-compose-best.yaml up -d
+```
+
+**Specify differente docker-compose file, Using Global env and Specifying env**
+```
+cd aspnet-mssql
+docker-compose --env-file .env.stg -f .\docker-compose-best.yaml up -d
+```
 
 ## Docker Security , scan with Aqua trivy
 
@@ -246,3 +260,8 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aqu
 * https://docs.aws.amazon.com/whitepapers/latest/docker-on-aws/container-benefits.html
 * https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
 * https://docs.docker.com/develop/dev-best-practices/
+* https://www.youtube.com/watch?v=sK5i-N34im8
+* https://docs.docker.com/compose/environment-variables/env-file/
+* https://12factor.net/pt_br/
+* https://stackoverflow.com/questions/54988792/docker-compose-healthcheck-use-environment-variables
+
