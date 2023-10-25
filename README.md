@@ -192,7 +192,7 @@ docker run --name web-docker -p 8080:80 -di web-docker
 
 **Create a container db-docker**
 
-The commands bellow creates/runs a container from the image "mcr.microsoft.com/mssql/server", named your container as "db-docker" , the "-e" exposes environments 'ACCEPT_EULA' and 'SA_PASSWORD' with your respective values, the "-p" exposes the port "1433" on your host and the "1433" inside your container the "-di" is a flag to make the container runs as a daemon process an make it interactable.
+The commands bellow creates/runs a container from the image **"mcr.microsoft.com/mssql/server"**, named your container as **"db-docker"** , the **"-e"** exposes environments **'ACCEPT_EULA'** and **'SA_PASSWORD'** with your respective values, the **"-p"** exposes the port **"1433"** on your host and the **"1433"** inside your container the **"-di"** is a flag to make the container runs as a daemon process an make it interactable.
 ```
 docker run --name db-docker -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=example_123' -p 1433:1433 -di mcr.microsoft.com/mssql/server
 ```
@@ -207,7 +207,7 @@ docker network create docker-network
 
 **Create a container web-docker using docker-network**
 
-The "--network docker-network" attaches the container "web-docker" to docker network "docker-network".
+The **"--network docker-network"** attaches the container **"web-docker"** to docker network **"docker-network"**.
 
 ```
 docker run --name web-docker -p 8080:80 --network docker-network -di web-docker 
@@ -215,7 +215,7 @@ docker run --name web-docker -p 8080:80 --network docker-network -di web-docker
 
 **Create a container db-docker using docker-network**
 
-The "--network docker-network" attaches the container "db-docker" to docker network "docker-network".
+The **"--network docker-network"** attaches the container **"db-docker"** to docker network **"docker-network"**.
 
 ```
 docker run --name db-docker -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=example_123' -p 1433:1433  --network docker-network -di mcr.microsoft.com/mssql/server
@@ -231,7 +231,7 @@ docker rmi web-docker db-docker
 
 **Docker-compose create stack**
 
-Create your file called "docker-compose.yml" and run the all the commands bellow inside the folder where is the file
+Create your file called **"docker-compose.yml"** and run the all the commands bellow inside the folder where is the file
 
 ```
 docker-compose up -d
@@ -345,14 +345,14 @@ Now you can see that the user running the .Net process is **"web-user"** not **"
 
 ```
 cd aspnet-mssql
-docker-compose -f .\docker-compose-best.yaml up -d
+docker-compose -f .\docker-compose-best.yml up -d
 ```
 
 **Specify different docker-compose file, Using Global env and Specifying env**
 
 ```
 cd aspnet-mssql
-docker-compose --env-file .env.stg -f .\docker-compose-best.yaml up -d
+docker-compose --env-file .env.stg -f .\docker-compose-best.yml up -d
 ```
 
 ## **Docker Security , scan with Aqua trivy**
