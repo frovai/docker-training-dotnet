@@ -1,0 +1,50 @@
+services:
+  web:
+    image: web-docker-best
+    container_name: web-docker-best
+    build:
+      context: ./app/aspnetapp
+      dockerfile: Dockerfile-best-practices
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    volumes:
+      - web-docker-vol:/app/wwwroot/images
+    networks:
+      - frontend    
+    depends_on:
+      db:        
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1000M 
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: db-docker-best
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SA_PASSWORD}
+      ENVIRONMENT: ${ENVIRONMENT}
+    #env_file:
+    #  - .env.Global
+    restart: unless-stopped 
+    healthcheck:
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $$SA_PASSWORD -Q 'SELECT 1' || exit 1"]
+        interval: 2s
+        retries: 20
+        start_period: 2s
+        timeout: 3s     
+    networks:
+      - backend        
+
+volumes:
+  web-docker-vol:        
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
