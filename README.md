@@ -380,43 +380,74 @@ sudo usermod -aG docker $(whoami)
 
 **Scan images to find vulnerabilities**
 
-Run the command bellow to pull image **aquasec/trivy** and scan the images **web-docker** or the **web-docker-bestpractices**
+Run the command bellow to pull image **aquasec/trivy** and scan the images **web-docker** or the **web-docker-best**
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker
 # OR
-docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-bestpractices
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best
 ```
 
-**Scan images to find vulnerabilities filtering level of vulnerability**
+**On LINUX , Scan images to find vulnerabilities filtering level of vulnerability**
 
-Run the command bellow to scan the images **web-docker** or the **web-docker-bestpractices** and filtering only HIGH and CRITICAL issues.
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will filter only HIGH and CRITICAL issues.
 
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | grep -E 'HIGH|CRITICAL'
-# OR
-docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-bestpractices | grep -E 'HIGH|CRITICAL'
+# AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | grep -E 'HIGH|CRITICAL'
 ```
 
-**Scan images to find vulnerabilities with reports in HTML format**
+**On WINDOWS , Scan images to find vulnerabilities filtering level of vulnerability**
 
-**On Linux**
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will filter only HIGH and CRITICAL issues.
+
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | findstr /R /C:"HIGH" /C:"CRITICAL"
+# AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | findstr /R /C:"HIGH" /C:"CRITICAL"
+```
+
+**On LINUX, Scan images to find vulnerabilities with reports in HTML format**
+
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will generate a HTML Report listing all the vulnerabilities, LOW, MEDIUM, HIGH and CRITICAL:
+
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
+## AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-best-report.html web-docker-best
 ```
 
-**On Windows**
+**On Windows, Scan images to find vulnerabilities with reports in HTML format**
+
+Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will generate a HTML Report listing all the vulnerabilities, LOW, MEDIUM, HIGH and CRITICAL:
+
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-report.html web-docker
+## AND
+docker run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-best-report.html web-docker-best
 ```
 
-**Build vulnerable image to compare**
+**COMPARE IMAGE VULNERABILITIES**
 
+**Command on Windows , web-docker image Total vulnerabilities** 
 ```
-docker build -t web-docker-vulnerable -f 
-Dockerfile-bkp .
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | findstr /R /C:"Total"
+```
+**Command on Linux , web-docker image Total vulnerabilities** 
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | grep Total
+```
+![Web-docker Vulnerabilities](.images/Total-vulnerabilities-web-docker.png)
 
-docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-vulnerable-report.html web-docker-vulnerable
+**Command on Windows , web-docker-best image Total vulnerabilities** 
 ```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | findstr /R /C:"Total"
+```
+**Command on Linux , web-docker-best image Total vulnerabilities** 
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | grep Total
+```
+![Web-docker-best Vulnerabilities](.images/Total-vulnerabilities-web-docker-best.png)
 
 ## **Fonts**
 
