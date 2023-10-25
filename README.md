@@ -14,27 +14,33 @@ This reposiroty was created to train people running Docker containers for .Net a
 * **Lightweight footprint and minimal overhead** – Docker images are typically very small, which facilitates rapid delivery and reduces the time to deploy new application containers. Docker’s lightweight nature ensures that resources are optimally utilized, thereby reducing overheads and boosting performance.
 * **Simplified maintenance** – Docker reduces effort and risk of problems with application dependencies.
 
-## Docker commands
+### **Docker commands**
 
 **Containers:**
 
-* create — Creates a container from an image.
+* **create** — Creates a container from an image.
 ```
 docker create [imageid]
 ```
-* start — Starts a container that already exists.
+* **start** — Starts a container that already exists.
 ```
 docker start [containerid]
 ```
-restart — Restarts an existing container.
+* **restart** — Restarts an existing container.
+```
 docker restart [containerid]
-run , run -di — Creates a new container and starts it.
+```
+* **run** , run -di — Creates a new container and starts it like daemon process.
 -d = Run the container in the background
 -i = Interactive mode. Keeps STDIN open even without console attached
+```
 docker run -di [imageid]
-ps — Lists the containers that are running.
-docker ps (containers up)
-docker ps -a (all containers on the machine)
+```
+* **ps** — Lists the containers that are running.
+```
+docker ps # (containers up)
+docker ps -a # (all containers on the machine)
+```
 inspect — Inspects container configurations.
 docker inspect [containerid]
 logs — Shows the container logs.
@@ -84,8 +90,6 @@ Dockerfile is a file that you need to create to design or create you docker imag
 ## Docker-compose
 
 Docker-compose is another feature of Docker to simply document and create your Docker environment without having to decorate docker commands, you create your docker environments in a more performatic way as well.
-
-### **Docker commands**
 
 **Create an image web-docker**
 
