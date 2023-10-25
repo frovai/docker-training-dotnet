@@ -417,7 +417,7 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aqu
 docker run -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/tmp/.cache/ aquasec/trivy image --format template --template "@contrib/html.tpl" -o /tmp/.cache/web-docker-best-report.html web-docker-best
 ```
 
-**On Windows, Scan images to find vulnerabilities with reports in HTML format**
+**On WINDOWS, Scan images to find vulnerabilities with reports in HTML format**
 
 Run the command bellow to scan the images **web-docker** and **web-docker-best** , the scan will generate a HTML Report listing all the vulnerabilities, LOW, MEDIUM, HIGH and CRITICAL:
 
@@ -429,23 +429,23 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock -v ${PWD}:/tmp/.cache/ a
 
 **COMPARE IMAGE VULNERABILITIES**
 
-**Command on Windows , web-docker image Total vulnerabilities** 
-```
-docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | findstr /R /C:"Total"
-```
-**Command on Linux , web-docker image Total vulnerabilities** 
+**Command on LINUX , web-docker image Total vulnerabilities** 
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | grep Total
 ```
+**Command on WINDOWS , web-docker image Total vulnerabilities** 
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker | findstr /R /C:"Total"
+```
 ![Web-docker Vulnerabilities](.images/Total-vulnerabilities-web-docker.png)
 
-**Command on Windows , web-docker-best image Total vulnerabilities** 
-```
-docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | findstr /R /C:"Total"
-```
-**Command on Linux , web-docker-best image Total vulnerabilities** 
+**Command on LINUX , web-docker-best image Total vulnerabilities** 
 ```
 docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | grep Total
+```
+**Command on WINDOWS , web-docker-best image Total vulnerabilities** 
+```
+docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image web-docker-best | findstr /R /C:"Total"
 ```
 ![Web-docker-best Vulnerabilities](.images/Total-vulnerabilities-web-docker-best.png)
 
