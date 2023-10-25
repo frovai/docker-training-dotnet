@@ -50,26 +50,47 @@ docker ps -a # (all containers on the machine)
 ```
 docker inspect [containerid]
 ```
-logs — Shows the container logs.
+
+* **logs** — Shows the container logs.
+```
 docker logs [containerid]
-stop — Stops the container safely.
+```
+* **stop** — Stops the container safely.
+```
 docker stop [containerid]
-kill — Forces the container's main process to stop.
+```
+* **kill** — Forces the container's main process to stop.
+```
 docker kill [containerid]
-rm — Deletes a container, only works when it is stopped.
+```
+* **rm** — Deletes a container, only works when it is stopped.
+```
 docker rm [containerid]
-exec , exec -it — Executes a command in the container.
+```
+* **exec** , **exec -it** — Executes a command in the container.
+```
 docker exec -ti [containerid] [command]
-stats — Shows the container's consumption/statistics.
+```
+* **stats** — Shows the container's consumption/statistics.
+```
 docker stats [containerid]
-top — Shows running processes.
+```
+* **top** — Shows running processes.
+```
 docker top [containerid]
-port – Shows the exposed and open ports of the container.
+```
+* **port** – Shows the exposed and open ports of the container.
+```
 docker port [containerid]
-rename — Renames a container.
+```
+* **rename** — Renames a container.
+```
 docker rename [containerid] [newname]
-export — Exports the container's Filesystem to a tar.
+```
+* **export** — Exports the container's Filesystem to a tar.
+```
 docker export [containerid] > file_name.tar
+```
 Images:
 Use: docker command
 search — Displays existing images on Docker Hub.
