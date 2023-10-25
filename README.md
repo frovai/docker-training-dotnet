@@ -159,7 +159,9 @@ docker save -o MinhaImagemExportada.tar 185661fea235 ## Example 2 exporting .tar
 
 ## **Dockerfile**
 
-Dockerfile is a file that you need to create to design or create you docker image.
+Dockerfile is a file that you need to create, to design your docker image. Dockerfile is structured in Layers, so each line on your Dockerfile file is a different layer. All the layers are refered to Image and are read-only excepted the last one that refers to the Container and it's Read-Write.
+
+![DockerFile Structure](.images/Dockerfile-Structure.webp)
 
 ## **Docker-compose**
 
