@@ -186,6 +186,8 @@ The commands bellow creates/runs a container from the image "web-docker" , named
 ```
 docker run --name web-docker -p 8080:80 -di web-docker 
 ```
+**[http://localhost:8080](http://localhost:8080)**
+
 ![Web-docker Page](.images/output.jpg)
 
 **Create a container db-docker**
