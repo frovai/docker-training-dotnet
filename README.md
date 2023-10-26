@@ -344,6 +344,9 @@ Access the folder and re-create the web-docker image with commands bellow and te
 ```
 cd aspnet-mssql/app/aspnetapp/
 docker build -t web-docker-best -f Dockerfile-best-practices .
+docker stop web-docker
+docker rm web-docker
+docker run -di web-docker-best 
 docker exec -it web-docker-best sh
 ps aux
 ## OR
