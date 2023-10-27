@@ -362,9 +362,6 @@ Now you can see that the user running the .Net process is **"web-user"** not **"
 
 Now, uncomment the lines bellow, inside the file **"docker-compose-best.yml"** and re-run the command to create the stack.
 ```
-      #APPLICATION_NAME: ${APPLICATION_NAME}
-      #LANGUAGE: ${LANGUAGE}
-      #OS_SYSYEM: ${OS_SYSTEM}
     #env_file:
     #  - .env.Global   
 ```
