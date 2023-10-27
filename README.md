@@ -169,6 +169,8 @@ docker save -o MinhaImagemExportada.tar 185661fea235 ## Example 2 exporting .tar
 
 ## **Dockerfile**
 
+[Dockerfile Reference Commands](https://docs.docker.com/engine/reference/builder/)
+
 Dockerfile is a file that you need to create, to design your docker image. 
 
 Dockerfile is structured in Layers, so each line on your Dockerfile file is a different layer. All the layers are refered to Image and are Read-Only excepted the last one that refers to the Container and it's Read-Write.
